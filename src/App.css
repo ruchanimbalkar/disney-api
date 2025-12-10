@@ -32,7 +32,7 @@ a {
 .character-option-div,
 .option-result {
   display: grid;
-  gap: 0.8rem;
+  gap: 1rem;
   grid-template-columns: 1fr 1fr;
 }
 
