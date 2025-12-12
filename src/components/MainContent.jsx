@@ -4,61 +4,26 @@ import Button from "./Button.jsx";
 export default function MainContent({ character }) {
   const [data, setData] = useState();
   const [list, setList] = useState([]);
+  const [url, setUrl] = useState("https://api.disneyapi.dev/characters/4703");
   // const [click, setClick] = useState([true, false, false, false]);
 
-  const handleClickBtn = (option, characterName) => {
-    switch (characterName) {
-      case "Mickey Mouse":
-        switch (option) {
-          case "Films":
-            setList(data[1].films);
-            break;
-          case "Tv Shows":
-            setList(data[1].tvShows);
-            break;
-          case "Video Games":
-            setList(data[1].videoGames);
-            break;
-          case "Park Attractions":
-            setList(data[1].parkAttractions);
-            break;
-        }
+  const handleClickBtn = (option, characterUrl) => {
+    setUrl(characterUrl);
+    switch (option) {
+      case "Films":
+        setList(data.films);
         break;
-
-      case "Minnie Mouse":
-      case "Daisy Duck":
-        switch (option) {
-          case "Films":
-            setList(data.films);
-            break;
-          case "Tv Shows":
-            setList(data.tvShows);
-            break;
-          case "Video Games":
-            setList(data.videoGames);
-            break;
-          case "Park Attractions":
-            setList(data.parkAttractions);
-            break;
-        }
+      case "Tv Shows":
+        setList(data.tvShows);
         break;
-      case "Donald Duck":
-        switch (option) {
-          case "Films":
-            setList(data[0].films);
-            break;
-          case "Tv Shows":
-            setList(data[0].tvShows);
-            break;
-          case "Video Games":
-            setList(data[0].videoGames);
-            break;
-          case "Park Attractions":
-            setList(data[0].parkAttractions);
-            break;
-        }
+      case "Video Games":
+        setList(data.videoGames);
+        break;
+      case "Park Attractions":
+        setList(data.parkAttractions);
         break;
     }
+
     // let result = click.map((_, i) => {
     //   if (i != index) {
     //     return false;
@@ -70,9 +35,7 @@ export default function MainContent({ character }) {
 
   const getCharacterData = async () => {
     try {
-      const response = await fetch(
-        `https://api.disneyapi.dev/character?name=${character.text}`
-      );
+      const response = await fetch(url);
       if (!response.ok) {
         console.error(`Response status: ${response.status}`);
         return;
@@ -87,7 +50,7 @@ export default function MainContent({ character }) {
 
   useEffect(() => {
     getCharacterData();
-  }, []);
+  }, [url]);
 
   return (
     <>
@@ -98,7 +61,7 @@ export default function MainContent({ character }) {
             {optionButtons.map((item, index) => (
               <Button
                 buttonText={item}
-                handleClick={() => handleClickBtn(item, character.text)}
+                handleClick={() => handleClickBtn(item, character.url)}
                 key={"index_" + index}
               />
             ))}
